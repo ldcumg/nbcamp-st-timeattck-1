@@ -9,6 +9,13 @@ const ShowList = ({ countryList, setCountryList }) => {
       alert("삭제를 취소하셨습니다.");
     }
   };
+
+  countryList.sort((a, b) => {
+    if (a.gold !== b.gold) return b.gold - a.gold;
+    if (a.silver !== b.silver) return b.silver - a.silver;
+    return b.bronze - a.bronze;
+  });
+
   if (countryList.length > 0) {
     return (
       <table>
@@ -28,7 +35,7 @@ const ShowList = ({ countryList, setCountryList }) => {
                 <td>{country.gold}</td>
                 <td>{country.silver}</td>
                 <td>{country.bronze}</td>
-                <button onChange={deleteCountryHandler(country.id)}>
+                <button onClick={() => deleteCountryHandler(country.id)}>
                   삭제
                 </button>
               </tr>

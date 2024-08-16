@@ -3,7 +3,7 @@ import InputArea from "./components/InputArea";
 import ShowList from "./components/ShowList";
 
 const App = () => {
-  const { countryList, setCountryList } = useState([]);
+  const [ countryList, setCountryList ] = useState([]);
 
   return (
     <div>

@@ -3,9 +3,8 @@ import MedalInput from "./MedalInput";
 import { v4 as uuid } from "uuid";
 
 const InputArea = ({ countryList, setCountryList }) => {
-  const { name, setName } = useState("");
-  const { medals, setMedals } = useState({ gold: 0, silver: 0, bronze: 0 });
-  console.log("medals", medals);
+  const [name, setName] = useState("");
+  const [medals, setMedals] = useState({ gold: 0, silver: 0, bronze: 0 });
 
   const medalInputList = [
     { name: "금메달", objKey: "gold", numberOfMedal: medals.gold },
@@ -34,7 +33,11 @@ const InputArea = ({ countryList, setCountryList }) => {
   };
 
   const addCountryHandler = () => {
-    if (countryList.some((country) => country.id === enteredCountry.id)) {
+    if (!enteredCountry.name) {
+      alert("국가명을 입력해주세요.");
+      return;
+    }
+    if (countryList.some((country) => country.name === enteredCountry.name)) {
       alert("이미 존재하는 국가입니다. 업데이트 버튼을 눌러주세요.");
       return;
     }
@@ -44,12 +47,12 @@ const InputArea = ({ countryList, setCountryList }) => {
   };
 
   const updateCountryHandler = () => {
-    if (!countryList.some((country) => country.id === enteredCountry.id)) {
+    if (!countryList.some((country) => country.name === enteredCountry.name)) {
       alert("존재하지 않는 국가입니다. 추가 버튼을 눌러주세요");
       return;
     }
     const removePreInfo = countryList.filter(
-      (country) => country.id !== enteredCountry.id
+      (country) => country.name !== enteredCountry.name
     );
     setCountryList([...removePreInfo, enteredCountry]);
     resetInput;
@@ -71,8 +74,12 @@ const InputArea = ({ countryList, setCountryList }) => {
           />
         );
       })}
-      <button onChange={() => addCountryHandler()}>추가하기</button>
-      <button onChange={() => updateCountryHandler()}>업데이트</button>
+      <button onClick={() => addCountryHandler(enteredCountry.id)}>
+        추가하기
+      </button>
+      <button onClick={() => updateCountryHandler(enteredCountry.id)}>
+        업데이트
+      </button>
     </>
   );
 };
